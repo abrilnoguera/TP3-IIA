@@ -1,4 +1,4 @@
-# TP2: Regresión del valor de valor medio de casas en distritos de California
+# TP2: Regresión del valor medio de casas en distritos de California
 
 Se requiere construir una regresión que nos permita predecir el valor medio de las casas en distritos de California, 
 EEUU (medidos en cientos de miles de dólares $100,000). Este dataset se deriva del censo de 1990 de EEUU, donde cada 
