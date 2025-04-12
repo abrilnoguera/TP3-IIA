@@ -1,50 +1,27 @@
-# TP2: Regresión del valor medio de casas en distritos de California
+# TP3: Detector de SPAM
 
-Se requiere construir una regresión que nos permita predecir el valor medio de las casas en distritos de California, 
-EEUU (medidos en cientos de miles de dólares $100,000). Este dataset se deriva del censo de 1990 de EEUU, donde cada 
-observación es un bloque. Un bloque es la unidad geográfica más pequeña para la cual la Oficina del Censo de EEUU 
-publica datos de muestra (un bloque típicamente tiene una población de 600 a 3000 personas).
+Uno de los problemas más comunes en la clasificación es la detección de correos electrónicos SPAM. Uno de los primeros modelos utilizados para abordar este problema fue el clasificador de Bayes ingenuo. La detección de SPAM es un problema persistente en el mundo digital, ya que los spammers continúan adaptando sus estrategias para eludir los filtros de correo no deseado. Además del clasificador de Bayes ingenuo, se han desarrollado y utilizado una variedad de técnicas más avanzadas en la detección de SPAM, que incluyen algoritmos de aprendizaje automático, redes neuronales y métodos basados en reglas.
 
-Los atributos, en el orden en que se guardaron en el dataset, son:
+En este trabajo práctico, utilizaremos un conjunto de datos que consta de 4601 observaciones de correos electrónicos, de los cuales 2788 son correos legítimos y 1813 son correos SPAM. Dado que el contenido de los correos electrónicos es un tipo de dato no estructurado, es necesario procesarlo de alguna manera. Para este conjunto de datos, ya se ha aplicado un procesamiento típico en el Procesamiento del Lenguaje Natural (NLP), que consiste en contar la frecuencia de palabras observadas en los correos.
 
-- `MedInc`: Ingreso medio en el bloque
-- `HouseAge`: Edad mediana de las casas en el bloque
-- `AveRooms`: Número promedio de habitaciones por hogar.
-- `AveBedrms`: Número promedio de dormitorios por hogar.
-- `Population`: Población del bloque
-- `AveOccup`: Número promedio de miembros por hogar.
-- `Latitude`: Latitud del bloque
-- `Longitude`: Longitud del bloque
+El procesamiento de lenguaje natural (NLP) desempeña un papel fundamental en la detección de SPAM, ya que permite analizar el contenido de los correos electrónicos y extraer características relevantes para la clasificación. Además de contar la frecuencia de palabras, se pueden utilizar técnicas más sofisticadas, como la extracción de características semánticas y el análisis de sentimientos, para mejorar la precisión de los modelos de detección de SPAM.
 
-Y el target es:
+En este proceso, se cuenta la cantidad de ocurrencias de cada palabra en los diferentes correos.
 
-- `MedHouseVal`: Mediana del costo de casas en el bloque (en unidades de a $100.000)
+Con el fin de preservar la privacidad de los mensajes, la frecuencia de palabras se encuentra normalizada. El conjunto de datos está compuesto por 54 columnas de atributos que se denominan:
 
-Para este TP, se proporciona una notebook (`ayuda.ipynb`) con la lectura del dataset, la separación de los datos, entre 
-otras ayudas para resolver este trabajo práctico.
+word_freq_XXXX: Donde XXXX es la palabra o símbolo. Los valores son enteros que van de 0 a 20k.
+Además, hay una columna adicional llamada spam, que es 1 si el correo es SPAM o 0 si no lo es.
+
+Los clasificadores de Bayes ingenuos fueron los primeros filtros utilizados por las aplicaciones de correo electrónico, basados en este principio de palabras. La idea es que, partiendo de un dato a priori sobre la probabilidad de que un correo sea SPAM o no, ciertas palabras nos indicarán que la probabilidad a posteriori, dadas esas palabras, es más probable que el correo sea SPAM o no.
 
 ## Tareas y preguntas a resolver:
 
-1. Obtener la correlación entre los atributos y los atributos con el target. ¿Cuál atributo tiene mayor correlación 
-lineal con el target y cuáles atributos parecen estar más correlacionados entre sí? Se puede obtener los valores o 
-directamente graficar usando un mapa de calor.
-2. Graficar los histogramas de los diferentes atributos y el target. ¿Qué tipo de forma de histograma se observa? ¿Se 
-observa alguna forma de campana que nos indique que los datos pueden provenir de una distribución gaussiana, sin 
-entrar en pruebas de hipótesis?
-3. Calcular la regresión lineal usando todos los atributos. Con el set de entrenamiento, calcular la varianza total del 
-modelo y la que es explicada con el modelo. ¿El modelo está capturando el comportamiento del target? Expanda su 
-respuesta.
-4. Calcular las métricas de MSE, MAE y $R^2$ del set de evaluación.
-5. Crear una regresión de Ridge. Usando una validación cruzada de 5-folds y usando como métrica el MSE, calcular el 
-mejor valor de $\alpha$, buscando entre [0, 12.5]. Graficar el valor de MSE versus $\alpha$.
-6. Comparar, entre la regresión lineal y la mejor regresión de Ridge, los resultados obtenidos en el set de evaluación. 
-¿Cuál da mejores resultados (usando MSE y MAE)? Conjeturar por qué el mejor modelo mejora. ¿Qué error puede haberse 
-reducido?
-
-El entregable consiste en uno o más archivos de notebook `ipynb` con las respuestas. Aunque se da libertad para usar 
-otros tipos de entregables, es importante incluir tanto el código de lo resuelto como las respuestas. Pueden subir 
-el contenido o proporcionar un enlace a un repositorio público (GitHub o GitLab) con el contenido en el aula virtual. 
-**No olviden especificar los autores del TP en el entregable**.
-
-Para resolver este TP, son libres de utilizar los recursos que consideren necesarios. Pueden hacerlo en cualquier 
-lenguaje de programación y de la forma que consideren apropiada.
+¿Cuáles son las 10 palabras más encontradas en correos con SPAM y en correos No SPAM? ¿Hay palabras en común? ¿Algunas llaman la atención?
+ Separe el conjunto de datos en un conjunto de entrenamiento y un conjunto de prueba (70% y 30% respectivamente).
+ Utilizando un clasificador de Bayes ingenuo, entrene con el conjunto de entrenamiento.
+ Utilizando un clasificador de Regresión Logística, entrene con el conjunto de entrenamiento (en este caso, normalice los datos).
+ Calcule la matriz de confusión del conjunto de evaluación para ambos modelos. ¿Qué tipo de error comete más cada modelo? ¿Cuál de los dos tipos de error crees que es más importante para este problema?
+Calcule la precisión y la recuperación de ambos modelos. Para cada métrica, ¿cuál es el mejor modelo? ¿Cómo se relacionan estas métricas con los tipos de errores analizados en el punto anterior? Expanda su respuesta.
+ Obtenga la curva ROC y el AUC (Área Bajo la Curva ROC) de ambos modelos.
+El entregable consiste en uno o más archivos de notebook ipynb con las respuestas. Aunque se da libertad para usar otros tipos de entregables, es importante incluir tanto el código de lo resuelto como las respuestas. Pueden subir el contenido o proporcionar un enlace a un repositorio público (GitHub o GitLab) con el contenido. No olviden especificar los autores del TP en el entregable.
